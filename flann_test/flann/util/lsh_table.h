@@ -344,6 +344,7 @@ inline LshTable<unsigned char>::LshTable(unsigned int feature_size, unsigned int
         // Set that bit in the mask
         size_t divisor = CHAR_BIT * sizeof(size_t);
         size_t idx = index / divisor; //pick the right size_t index
+
         mask_[idx] |= size_t(1) << (index % divisor); //use modulo to find the bit offset
     }
 

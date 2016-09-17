@@ -272,7 +272,6 @@ public:
         dist_index_[i].dist_ = dist;
         dist_index_[i].index_ = index;
         
-        std::cout<<dist_index_[i].dist_<<" "<<dist_index_[i].index_<<std::endl;
         worst_distance_ = dist_index_[capacity_-1].dist_;
     }
 

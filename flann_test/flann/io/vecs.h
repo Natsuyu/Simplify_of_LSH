@@ -10,23 +10,23 @@
 
 namespace flann{
     template<typename T>
-    void load_file(flann::Matrix<T>& dataset, const std::string& filename, const std::string& name)
+    void load_file(flann::Matrix<T>& dataset, const std::string& filename, const std::string& name, int number = 100000)
     {
         int col;
         
         std::ifstream file(filename,std::ios::in|std::ios::binary);
         size_t l = file.tellg();
         file.read((char*)&col, 4);
-        std::cout<<"col: "<<col<<std::endl;
+
         file.seekg(0, std::ios::end);
         size_t m = file.tellg();
         
         int row = (m-l)/(4+4*col);
-        if(row>1000) row=1000;
-        std::cout<<"row: "<<row<<" col: "<<col<<std::endl;
-        int multy = sizeof(size_t)/sizeof(T);
+        if(row>number) row=number;
+
+        int multy = sizeof(float)/sizeof(T);
         dataset = flann::Matrix<T>(new T[row*col*multy], row, col*multy);
-        
+
         int x;
         file.seekg(0, std::ios::beg);
         for(int i=0;i<row;i++)
@@ -51,14 +51,15 @@ namespace flann{
         
         for(int i=0;i<dataset.rows;i++)
         {
-            file.write((char*)&dataset.cols, 4);
+//            file.write((char*)&dataset.cols, 4);
             for(int j=0;j<dataset.cols;j++)
             {
-                file.write((char*)&dataset[i][j], sizeof(T));
+                file<<dataset[i][j]<<" ";
+//                file.write((char*)&dataset[i][j], sizeof(T));
             }
+            file<<"\n";
 
         }
-        
         file.close();
     }
     
